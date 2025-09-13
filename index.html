@@ -276,9 +276,8 @@
     <div id="passwordModal" class="modal-overlay visible">
         <div class="modal-content">
             <h2>Data Encryption</h2>
-            <p>Enter and re-enter a password to encrypt and decrypt your data. This password is not stored and is required every session.</p>
+            <p>Enter a password to encrypt and decrypt your data. This password is not stored and is required every session.</p>
             <input type="password" id="passwordInput" placeholder="Data Password">
-            <input type="password" id="confirmPasswordInput" placeholder="Confirm Password">
             <div class="modal-actions">
                 <button id="passwordSubmit">Unlock Data</button>
             </div>
@@ -305,6 +304,7 @@
             <div class="field"><label for="zone">Zone</label><input id="zone" name="zone" type="text" placeholder="e.g., Empangeni"></div>
             <div class="field"><label for="sector">Sector</label><input id="sector" name="sector" type="text" placeholder="e.g., Pongola"></div>
             <div class="field"><label for="cnc">CNC</label><input id="cnc" name="cnc" type="text"></div>
+            <div class="field"><label for="onPrevious">On Previous</label><input id="onPrevious" name="onPrevious" type="text"></div>
  	    <div class="field"><label for="date">Date</label><input id="date" type="date" name="date"></div>
 	    <div class="field"><label for="time">Time</label><input id="time" type="time" name="time"></div>
        	    <div class="field"><label for="workDescription">Work Description</label><input id="workDescription" type="text" name="workDescription"></div>
@@ -335,10 +335,13 @@
             <div class="field"><label for="split">Split</label><select id="split" name="split"><option value="">— Select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
             <div class="field"><label for="commonBaseMeter">Common/Non Common Base Meter</label><input id="commonBaseMeter" name="commonBaseMeter" type="text"></div>
             <div class="field"><label for="edEcu">ED/ECU</label><input id="edEcu" name="edEcu" type="text"></div>
+            <div class="field"><label for="meterField">Meter Field</label><input id="meterField" name="meterField" type="text"></div>
+            <div class="field"><label for="otherMeterType">Other Meter Type</label><input id="otherMeterType" name="otherMeterType" type="text"></div>
             <div class="field"><label for="meterType">Meter Type</label><input id="meterType" name="meterType" type="text"></div>
             <div class="field"><label for="tariffCode">Tariff Code</label><input id="tariffCode" name="tariffCode" type="text"></div>
             <div class="field"><label for="ampLimit">Amp Limit</label><input id="ampLimit" name="ampLimit" type="number" inputmode="numeric" pattern="[0-9]*"></div>
             <div class="field"><label for="supplyGroupCode">Supply Group Code</label><input id="supplyGroupCode" name="supplyGroupCode" type="text"></div>
+            <div class="field"><label for="illegalConnection">Illegal Connection</label><select id="illegalConnection" name="illegalConnection"><option value="">— Select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
 	    <div class="field"><label for="meterTariffIndex">MeterTariffIndex</label><input id="meterTariffIndex" name="meterTariffIndex" type="text"></div>
 
             <div class="field"><label for="magCard">Mag Card/Keypad</label><input id="magCard" name="magCard" type="text"></div>
@@ -351,6 +354,7 @@
 
             <div class="field"><label for="cardTrip">Card Trip</label><select id="cardTrip" name="cardTrip"><option value="">— Select —</option><option value="Pass">Pass</option><option value="Fail">Fail</option></select></div>
             <div class="field"><label for="elTest">E/L Test</label><select id="elTest" name="elTest"><option value="">— Select —</option><option value="Pass">Pass</option><option value="Fail">Fail</option></select></div>
+            <div class="field"><label for="sgc">SGC</label><input id="sgc" name="sgc" type="text"></div>
             <div class="field"><label for="meterFaulty">Meter Faulty</label><select id="meterFaulty" name="meterFaulty"><option value="">— Select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
             <div class="field"><label for="replaced">Replaced</label><select id="replaced" name="replaced"><option value="">— Select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
             <div class="field"><label for="mmfNo">MMF No</label><input id="mmfNo" name="mmfNo" type="text"></div>
@@ -884,11 +888,6 @@
         // --- INITIALIZATION & EVENT LISTENERS ---
         document.getElementById('passwordSubmit').addEventListener('click', async () => {
             const passwordInput = document.getElementById('passwordInput');
-            const confirmPasswordInput = document.getElementById('confirmPasswordInput');
-
-            if (passwordInput.value !== confirmPasswordInput.value) {
-                return showMessage('Passwords do not match.', 'error');
-            }
             if (passwordInput.value.length < 8) {
                 return showMessage('Password must be at least 8 characters.', 'error');
             }
@@ -902,7 +901,7 @@
                 
                 await initDb();
                 setTodaysDate();
-                setCurrentTime();
+                setCurrentTime(); // Auto-set time on password submission
                 updateRequiredVisuals();
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
@@ -923,9 +922,6 @@
         });
 
         document.getElementById('passwordInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') document.getElementById('passwordSubmit').click();
-        });
-        document.getElementById('confirmPasswordInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') document.getElementById('passwordSubmit').click();
         });
 
