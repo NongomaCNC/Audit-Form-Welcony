@@ -307,12 +307,12 @@
             <div class="field"><label for="onPrevious">On Previous</label><input id="onPrevious" name="onPrevious" type="text"></div>
  	    <div class="field"><label for="date">Date</label><input id="date" type="date" name="date"></div>
 	    <div class="field"><label for="time">Time</label><input id="time" type="time" name="time"></div>
-       	    <div class="field"><label for="workDescription">Work Description</label><input id="workDescription" type="text" name="workDescription"></div>
+       	    <div class="field"><label for="featureName">FeatureName(Auditing/MeterChangeout)</label><input id="featureName" type="text" name="featureName"></div>
             <div class="field"><label for="testerID">TesterID</label><input id="testerID" name="testerID" type="text"></div>
            
             <div class="field"><label for="feederName">Feeder Name</label><input id="feederName" name="feederName" type="text"></div>
             <div class="field"><label for="townshipName">Township Name</label><input id="townshipName" name="townshipName" type="text"></div>
-            <div class="field"><label for="transformerNo">Transformer No</label><input id="transformerNo" name="transformerNo" type="text"></div>
+            <div class="field"><label for="xformerNo">XformerNo</label><input id="xformerNo" name="xformerNo" type="text"></div>
             <div class="field"><label for="standNo">Stand No</label><input id="standNo" name="standNo" type="text"></div>
             <div class="field"><label for="installationNo">Installation No</label><input id="installationNo" name="installationNo" type="text"></div>
             <div class="field"><label for="lat">Latitude (DD MM SS.SSS S/N)</label><input id="lat" name="latitude" type="text" readonly></div>
@@ -337,7 +337,6 @@
             <div class="field"><label for="edEcu">ED/ECU</label><input id="edEcu" name="edEcu" type="text"></div>
             <div class="field"><label for="meterField">Meter Field</label><input id="meterField" name="meterField" type="text"></div>
             <div class="field"><label for="otherMeterType">Other Meter Type</label><input id="otherMeterType" name="otherMeterType" type="text"></div>
-            <div class="field"><label for="meterType">Meter Type</label><input id="meterType" name="meterType" type="text"></div>
             <div class="field"><label for="tariffCode">Tariff Code</label><input id="tariffCode" name="tariffCode" type="text"></div>
             <div class="field"><label for="ampLimit">Amp Limit</label><input id="ampLimit" name="ampLimit" type="number" inputmode="numeric" pattern="[0-9]*"></div>
             <div class="field"><label for="supplyGroupCode">Supply Group Code</label><input id="supplyGroupCode" name="supplyGroupCode" type="text"></div>
@@ -354,7 +353,7 @@
 
             <div class="field"><label for="cardTrip">Card Trip</label><select id="cardTrip" name="cardTrip"><option value="">— Select —</option><option value="Pass">Pass</option><option value="Fail">Fail</option></select></div>
             <div class="field"><label for="elTest">E/L Test</label><select id="elTest" name="elTest"><option value="">— Select —</option><option value="Pass">Pass</option><option value="Fail">Fail</option></select></div>
-            <div class="field"><label for="sgc">SGC</label><input id="sgc" name="sgc" type="text"></div>
+            <div class="field"><label for="newSupplyGroupCode">NewSupplyGroupCode</label><input id="newSupplyGroupCode" name="newSupplyGroupCode" type="text"></div>
             <div class="field"><label for="meterFaulty">Meter Faulty</label><select id="meterFaulty" name="meterFaulty"><option value="">— Select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
             <div class="field"><label for="replaced">Replaced</label><select id="replaced" name="replaced"><option value="">— Select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
             <div class="field"><label for="mmfNo">MMF No</label><input id="mmfNo" name="mmfNo" type="text"></div>
@@ -612,8 +611,8 @@
         }
 
         // --- VALIDATION ---
-        const alwaysRequiredFields = ['cnc', 'date', 'feederName', 'transformerNo'];
-        const conditionalRequiredFields = ['phoneCode', 'phoneNo', 'meterNo', 'meterType', 'supplyGroupCode', 'cardTrip', 'elTest', 'sealed', 'sealNo', 'latitude', 'longitude'];
+        const alwaysRequiredFields = ['cnc', 'date', 'feederName', 'xformerNo'];
+        const conditionalRequiredFields = ['phoneCode', 'phoneNo', 'meterNo', 'supplyGroupCode', 'cardTrip', 'elTest', 'sealed', 'sealNo', 'latitude', 'longitude'];
         
         function updateRequiredVisuals() {
             const form = document.getElementById('captureForm');
@@ -846,7 +845,9 @@
 
             // Define a mapping for specific field headers for the Excel file
             const excelHeaderMap = {
-                'workDescription': 'Work Description',
+                'featureName': 'FeatureName(Auditing/MeterChangeout)',
+                'xformerNo': 'XformerNo',
+                'newSupplyGroupCode': 'NewSupplyGroupCode',
                 'lat': 'Latitude',
                 'lon': 'Longitude',
             };
